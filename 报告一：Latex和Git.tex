@@ -1,0 +1,138 @@
+\documentclass{article}
+
+% 导入中文宏包
+\usepackage{ctex}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{hyperref}
+% 设置页面边距
+\usepackage{geometry}
+\usepackage{graphicx}
+\geometry{a4paper, left=2.5cm, right=2.5cm, top=3cm, bottom=3cm}
+
+% 设置标题、作者和日期
+\title{Latex与Git}
+\author{23020007011崔涛}
+
+\begin{document}
+
+% 生成标题、作者和日期
+\maketitle
+
+% 心得报告正文
+\section{实验目的}
+本次课程主要讲授了版本控制（Git）以及Latex文档编辑，通过对两者的学习来加强对两大便捷工具的使用
+
+\section{介绍}
+\subsection{两大工具的优点}
+Git 是一个分布式版本控制系统，它允许使用者跟踪文件和目录的变化历史Git 使得多人协作变得更加容易，多个开发者可以在同一个项目上工作，并轻松地合并各自的更改，方便了多人协作。
+
+LaTeX 是一个高质量的排版系统，适合生成科学和数学文档。Latex能够处理复杂的公式和表格，并自动处理文档的格式和布局，方便了文章排版。
+\section{练习内容}
+\subsection{Git学习样例10个}
+1. git init 可以在当前目录下创建git仓库,第一次使用需要进行如下配置\newspace
+git config [--global] user.name "Your Name"   \newspace
+git config [--global] user.email "email@example.com"  \newspace
+
+2. Git中有关文件提交的基础命令
+
+\begin{itemize}
+    \item \verb|git status|: 显示当前的仓库状态
+    \item \verb|git add <filename>|: 添加文件到暂存区
+    \item \verb|git commit|: 创建一个新的提交
+    \item \verb|git log|: 显示历史日志
+    \item \verb|git log --all --graph --decorate|: 可视化历史记录
+    \item \verb|git diff <filename>|: 显示与暂存区文件的差异
+    \item \verb|git diff <revision> <filename>|: 显示某个文件两个版本之间的差异
+    \item \verb|git checkout <revision>|: 更新 HEAD 和目前的分支
+
+\end{itemize}
+3.git reset 进行版本回退\textbf{，可以指定退回某⼀次提交的版本} 
+。其格式为：git reset [-soft|-mixed|-hard] [HEAD] \newline
+\begin{itemize}
+    \item --soft 参数对于⼯作区和暂存区的内容都不变，只是将版本库回退到某个指定版本。
+    \item  --mixed 为默认选项，使⽤时可以不⽤带该参数。该参数将暂存区的内容退回为指定提交版本内容，⼯作区⽂件保持不变。 
+    \item --hard 参数将暂存区与⼯作区都退回到指定版本。切记⼯作区有未提交的代码时不要⽤这个命令，因为⼯作区会回滚。 
+\end{itemize}
+4.可以通过\verb|git checkout -- [file]|让工作区的文件回到最近一次 \verb|add| 或 \verb|commit|时的状态。 
+
+5.克隆 \href{https://github.com/missing-semester-cn/missing-semester-cn.github.io.git}{本课程网站的仓库}并将版本历史可视化并进行探索
+找出 是谁最后修改了 \verb|README.md| 文件？查看最后一次修改 \verb|_config.yml| 文件中 \verb|collections:| 行时的提交信息是什么？
+\begin{itemize}
+    \item 使用git clone 加上仓库链接即可克隆仓库。
+    \item git log --all --graph --decorate将版本可视化历史化并进行探索 
+    \item 使用git log -1 README.md即可找出最后修改的人
+    \item git blame \_config.yml | grep collections即可找出最后一次修改 \verb|_config.yml| 文件中 \verb|collections:| 行时的提交信息
+\end{itemize}
+6.用Git时的一个常见错误是提交本不应该由Git管理的大文件，或者将含有敏感信息的文件提交给Git。尝试向仓库中添加一个文件并添加提交信息，然后将其从历史中删除
+\begin{itemize}
+    \item 输入（echo "password123">my\_password）（git add .）（git commit -m "add password123 to file"）
+ （git log HEAD）这四条指令来提交一些敏感信息
+ \item 使用\verb|git filter-branch|删除记录，输入git filter-branch --force --index-filter\
+ 'git rm --cached --ignore-unmatch ./my\_password' \
+ --prune-empty --tag-name-filter cat -- --all 即可
+\end{itemize}
+
+7.在 \~/.gitconfig 中创建一个别名，使在运行 git graph 时，您可以获得 git log –all –graph –decorate –oneline 的输出结果。\newline
+解答:向文件中写入如下内容\newline
+[alias]\newline
+    graph = log --all --graph --decorate --oneline\newline
+\newline
+
+8.
+配置全局 gitignore 文件来自动忽略系统或编辑器的临时文件 \newline
+解答：通过执行 git config –global core.excludesfile \~/.gitignore\_global 在 \~/.gitignore\_global 中创建全局忽略规则，输入如下指令即可。git config --global core.excludesfile ~/.gitignore .Name
+
+9.
+git的分支操作
+
+\begin{itemize}
+    \item git branch branch\_name创建分支
+    \item git branch查看分支
+    \item git branch branch\_name  切换到指定分支上的最新版本
+    \item git merge branch\_name合并分支
+
+
+\end{itemize}
+10.打开任意版本：git show hash(哈希值)
+
+\subsection{Latex学习例子10个}
+1.标题、日期与作者，这里可以用\verb|\title{}|、\verb|\author|、\verb|\date{}|来设置， 日期中选择\verb|\today|会 自动输出编译当天的日期。但是它们只能放在\verb|\documentclass|与\verb|\begin{document}|之间的区域），然后通过\verb|\maketitle|设来展现出来。
+
+ 
+2.目录的实现：需要加入\verb|\tableofcontents|
+
+3.插入图片需要使用\verb|graphicx|宏包 ,需要使用\verb|\includegraphics[width=8cm]{名字}|来实现\newline
+4.无序列表的插入使用\verb|\begin{itemize}|和
+\verb|\item|和\verb|\end{itemize}|即可|\newline
+5.有序列表使用\verb|\begin{enumerate}| 和
+\verb|\end{enumerate}|即可|\newline
+6.插入代码：可以调用\verb|listings|宏包，并且在正文中使用lstlisting指令框住所想插入的代码 |\newline
+\verb|\begin{listing}[language=python]|\newline
+代码\newline
+\verb|\end{listing}|\newline
+
+
+7.参考文献使用natbib 包\newline
+\verb|\usepackage{natbib}|\newline
+参考\newline
+\verb|\begin{document}|\newline
+8.Latex中空格的添加\newline
+\verb|\enspace|\newline
+\verb|quad|\newline
+9. 使用geometry宏包可以设置页面参数，如下所示\newline
+\[\textbackslash usepackage[top = 30mm, bottom = 30mm, inner = 20mm, outer = 45mm]\{geometry\}\]
+
+10.控制首行缩进。首先引用宏包
+\[\textbackslash usepackage\{indentfirst\}\]之后使用
+\[\textbackslash setlength\{\textbackslash parindent\}\{2em\}\]控制下文首行缩进两字符。
+
+
+\section{解题感悟收获}
+ 通过学习LaTeX，我学会了如何进行高效排版，学会了常见的文章结构布局的实现方式，可以随心所欲控制文章格式，还学会了使用模板来写作，大大提高了我的论文写作效率，Latex还提高了我的文档排版的正确度，学会了利用Latex自动为题注进行编号并在文档中进行正确的引用，减少了手动编号可能导致的错误。\newline
+ 通过学习Git，我学会了如何进行版本控制，掌握了Git仓库的一些基本操作，这大大提高了我的团队协作效率，版本控制也不再是问题，我还学会了如何在大型项目中利用Git来变更追踪和管理，为以后的工作打下基础。
+github路径
+您可以在此查看项目的源代码: 
+
+\url{https://github.com/cuitao223/homework1}
+\end{document}
